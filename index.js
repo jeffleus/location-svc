@@ -1,39 +1,40 @@
-var Sport = require('./Sport');
+var Location = require('./Location');
 
 var args = process.argv.slice(2);
 //console.log(process.argv);
 
-var sport = {
-	SportCodeID: 'XXX', 
-	description: "yo, dis an update suckah",
-	inSeasonStart: "2016-11-01T12:12:12.123Z",
-	inSeasonEnd: "2017-03-24T12:12:12.123Z",
-	offSeasonStart: "2017-03-25T12:12:12.123Z",
-	offSeasonEnd: "2017-06-30T12:12:12.123Z"
+var location = {
+    //LocationID: 2, 
+	title: 'Fuel Station', 
+	description: "primary fueling location",
+    isPre: true,
+    isPost: true,
+    isHydration: true,
+    isSnack: true,
+    isStaff: true,
+    isFree: false
 };
 
-var id = 1;
+var id = 3;
 var filter = ('mgo,wgo').split(',');
-console.log("FILTER: ", filter);
+//console.log("FILTER: ", filter);
 
-//Sport.get(null, filter).then(function(student) {
-Sport.get(null,filter).then(function(student) {
-//Sport.create(sport).then(function(student) {
-//Sport.update(sport).then(function(student) {
-//Sport.delete('XXX').then(function(result) {
-	
-//Athletes.delete(1165).then(function(result) {
-//Athletes.update(ath).then(function(student) {
-//Athletes.create(ath).then(function(student) {
-//Athletes.get(id, filter).then(function(student) {
-//	console.log(result);
-	console.log(student);
-	return;
+//Location.get(id).then(function(result) {
+//Location.get(null,filter).then(function(result) {
+Location.create(location).then(function(result) {
+//Location.update(location).then(function(result) {
+//Location.delete(2).then(function(result) {	
+	console.log(result);
+	//return;
+    return Location.get(null);
+}).then(function(result) {
+	console.log(result);
+	return;    
 }).catch(function(err) {
 	console.error(err);
 	return;
 }).finally(function() {
-	Sport.close();
+	Location.close();
 	return;
 });
 
