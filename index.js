@@ -19,9 +19,9 @@ var id = 3;
 var filter = ('mgo,wgo').split(',');
 //console.log("FILTER: ", filter);
 
-//Location.get(id).then(function(result) {
+Location.get().then(function(result) {
 //Location.get(null,filter).then(function(result) {
-Location.create(location).then(function(result) {
+//Location.create(location).then(function(result) {
 //Location.update(location).then(function(result) {
 //Location.delete(2).then(function(result) {	
 	console.log(result);
