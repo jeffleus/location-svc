@@ -1,11 +1,11 @@
-var Location = require('./Location');
+var Location = require('./Location').init('DEMO');
 
 var args = process.argv.slice(2);
 //console.log(process.argv);
 
 var location = {
     //LocationID: 2, 
-	title: 'Fuel Station', 
+	title: 'UNH Station', 
 	description: "primary fueling location",
     isPre: true,
     isPost: true,
@@ -25,8 +25,8 @@ Location.get().then(function(result) {
 //Location.update(location).then(function(result) {
 //Location.delete(2).then(function(result) {	
 	console.log(result);
-	//return;
-    return Location.get(null);
+	return;
+    //return Location.get(null);
 }).then(function(result) {
 	console.log(result);
 	return;    
