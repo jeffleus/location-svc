@@ -1,7 +1,5 @@
 'use strict';
-
-var Location = require('./Location');
-
+var Location;
 var moduleName = 'location-svc';
 
 module.exports.get = (event, context, callback) => {
@@ -16,10 +14,11 @@ module.exports.get = (event, context, callback) => {
       message: 'GET from the location microservice for FuelStationApp'
     })
   };
+    var Location = require('./Location').init(event.requestContext.authorizer.claims['custom:team']);
     //check the event path params for an employee id to use during lookup
     var id = (event.pathParameters && event.pathParameters.lid) ? event.pathParameters.lid : null;
-	console.log(event);
-	console.log(event.queryStringParameters);
+	console.log(event.requestContext.authorizer.claims);
+	//console.log(event.queryStringParameters);
     var filter = ((event.queryStringParameters !== null) && (event.queryStringParameters.filter !== null))?	
 		event.queryStringParameters.filter.split(','):null;
     console.log(moduleName, 'filter created - ' + JSON.stringify(filter));
