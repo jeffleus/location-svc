@@ -1,37 +1,48 @@
 'use strict';
 var Sequelize = require('sequelize');
+console.log('import Config for necessary db credentials');
 var Config = require('./Config')();
-var sequelize = new Sequelize('FuelStation_STAN', Config.username, Config.password, {
-	host: 'callsheet-mysql.cn6x6nhayn9c.us-west-2.rds.amazonaws.com',
-	port: 3306,
-    pool: {
-        max: 10,
-        min: 1,
-        idle: 100
-    },
-    dialect: 'mysql'
-});
-
-var Location = sequelize.define('location', {
-  LocationID: { 
-	  type: Sequelize.INTEGER,
-      autoIncrement: true,
-	  primaryKey: true, 
-	  field: 'LocationID' 
-  }, 
-  title: { type: Sequelize.STRING, field: 'Title' }, 
-  description: { type: Sequelize.STRING, field: 'Description' },
-  isPre: { type: Sequelize.BOOLEAN, field: 'isPre' },
-  isPost: { type: Sequelize.BOOLEAN, field: 'isPost' },
-  isHydration: { type: Sequelize.BOOLEAN, field: 'isHydration' },
-  isSnack: { type: Sequelize.BOOLEAN, field: 'isSnack' },
-  isStaff: { type: Sequelize.BOOLEAN, field: 'isStaff' },
-  isFree: { type: Sequelize.BOOLEAN, field: 'isFree' }
-}, {
-	tableName: 'Locations'
-});
+console.log('setup the sequelize cnxn string data');
+var sequelize;
+var Location;
 
 var moduleName = "LOCATION:";
+
+module.exports.init = function(team) {
+    console.log(moduleName, 'init with the following team: ' + team);
+    //build the db name from the user team claim provide thru Cognito user identity
+    var dbName = 'FuelStation_' + team;
+    //use the db_name and RDS credentials to init the sequelize object
+    sequelize = new Sequelize(dbName, Config.username, Config.password, {
+        host: 'callsheet-mysql.cn6x6nhayn9c.us-west-2.rds.amazonaws.com',
+        port: 3306,
+        pool: {
+            max: 10,
+            min: 1,
+            idle: 100
+        },
+        dialect: 'mysql'
+    });
+    Location = sequelize.define('location', {
+      LocationID: { 
+          type: Sequelize.INTEGER,
+          autoIncrement: true,
+          primaryKey: true, 
+          field: 'LocationID' 
+      }, 
+      title: { type: Sequelize.STRING, field: 'Title' }, 
+      description: { type: Sequelize.STRING, field: 'Description' },
+      isPre: { type: Sequelize.BOOLEAN, field: 'isPre' },
+      isPost: { type: Sequelize.BOOLEAN, field: 'isPost' },
+      isHydration: { type: Sequelize.BOOLEAN, field: 'isHydration' },
+      isSnack: { type: Sequelize.BOOLEAN, field: 'isSnack' },
+      isStaff: { type: Sequelize.BOOLEAN, field: 'isStaff' },
+      isFree: { type: Sequelize.BOOLEAN, field: 'isFree' }
+    }, {
+        tableName: 'Locations'
+    });
+    return this;
+};
 
 module.exports.get = function(id,filter) {
     if (!id) return list(filter);
